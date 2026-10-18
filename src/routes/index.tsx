@@ -1,6 +1,6 @@
 import { routerHook } from "@decky/api";
 import Settings from "../pages/Settings";
-import Terminal from "../pages/Terminal";
+import Terminal from "../pages/Terminal.jsx";
 
 export function registerRoutes() {
     routerHook.addRoute('/decky-terminal-focus/terminals/:id', Terminal, {
