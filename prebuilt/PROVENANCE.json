@@ -1,0 +1,13 @@
+{
+  "upstream": "Alex4386/decky-terminal",
+  "upstream_commit": "c520a6a8e734aaa26088ef2cc75ca5cfb2660d46",
+  "verified_on": "2026-10-18",
+  "deployed_bundle_sha256": "5202bbd2f40c6e35cd86fac5431877fc945dde88014a915dac207381e8e76e2a",
+  "fork_bundle_sha256": "020f12f41e94960641619da06a4ce7192ab940143024d55c9758e214163a6a06",
+  "changes_to_verified_bundle": [
+    "Namespaced plugin title and routes to coexist with upstream",
+    "Removed stale source-map reference",
+    "Removed trailing whitespace without changing runtime behavior"
+  ],
+  "note": "Known working bundle from the user-confirmed installation. Rebuild from src/pages/Terminal.jsx for subsequent changes."
+}

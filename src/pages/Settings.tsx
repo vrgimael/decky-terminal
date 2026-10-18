@@ -9,7 +9,7 @@ import SettingsPage from "./settings/SettingsPage";
 const Settings: VFC = () => {
   return (
     <SidebarNavigation
-      title="Decky Terminal"
+      title="Decky Terminal Focus"
       showTitle={true}
       pages={[
         {

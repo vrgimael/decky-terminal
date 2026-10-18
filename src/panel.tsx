@@ -76,7 +76,7 @@ const SidePanel: VFC = ({}) => {
         </DialogButton>
         <IconDialogButton onClick={() => {
           Router.CloseSideMenus();
-          Router.Navigate("/decky-terminal/settings");
+          Router.Navigate("/decky-terminal-focus/settings");
         }}>
           <FaCog />
         </IconDialogButton>
@@ -90,7 +90,7 @@ const SidePanel: VFC = ({}) => {
               <DialogButton
                 onClick={() => {
                   Router.CloseSideMenus();
-                  Router.Navigate("/terminals/"+terminal.id);
+                  Router.Navigate("/decky-terminal-focus/terminals/"+terminal.id);
                 }}
                 style={{
                   whiteSpace: 'nowrap',
