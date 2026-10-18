@@ -10,8 +10,8 @@ export default definePlugin(() => {
   registerRoutes();
 
   return {
-    name: "Decky Terminal",
-    title: <div className={staticClasses.Title}>Decky Terminal</div>,
+    name: "Decky Terminal Focus",
+    title: <div className={staticClasses.Title}>Decky Terminal Focus</div>,
     content: <SidePanel />,
     icon: <FaTerminal />,
     onDismount() {

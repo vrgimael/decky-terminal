@@ -1,32 +1,70 @@
-![Banner](https://github.com/user-attachments/assets/bfe5fa56-0f64-4f16-beb8-e6a46b9c18bd)
+# Decky Terminal Focus
 
-<!--
-<p align="center"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplugins.deckbrew.xyz%2Fplugins&query=%24%5B%3F(%40.name%20%3D%3D%20'Decky%20Terminal')%5D.downloads&suffix=%20installs&label=decky&color=3ea6a3" /></p>
--->
+A personal fork of [Alex4386/decky-terminal](https://github.com/Alex4386/decky-terminal) for terminal applications in Steam Game Mode, including Codex, editors, and other interactive command-line tools.
 
-## What is this?
-Decky Terminal is a terminal emulator plugin for Decky Loader, that allows you to run command line applications while in the game mode, without exiting to KDE or equivalent desktop environment (on non-SteamOS).  
-It is a simple terminal emulator based on [xterm.js](https://xtermjs.org/) and [React](https://reactjs.org/) that runs on top of Decky Loader., allowing you to run some quick command line applications.
+This fork captures terminal navigation and editing keys, handles Steam's virtual keyboard, provides a visible fullscreen exit, and releases input when the shell finishes. It uses Steam's internal router rather than assuming the browser URL identifies the current page.
 
-### Use cases
-Here are some use cases that you can do with Decky Terminal:
-* Quickly run some command-line application in game-mode
-* Show off your `"31337"` Linux command line skills to public on the go 
-* Edit simple file with vim/emacs without exiting to KDE jumping all the hoops  
-  <sup>(GNU/Emacs installed seperately)</sup>
-* Use it as your dumb terminal for your ssh  
-  <sup>(phone hotspot data plan sold seperately)</sup>
-* Manage your network infrastructure with GNU/Screen   
-  <sup>(GNU/Screen installed seperately, RS232 to USB converter sold seperately)</sup>
-* [Decide NPC's fate](https://www.youtube.com/watch?v=cLT465WM8uw)
-* [Play BadApple](https://www.youtube.com/watch?v=pSygAG933Yw)
-* [Fix broken IME inputs](https://gall.dcinside.com/mgallery/board/view/?id=umpc&no=65008)
+## Install on a Steam Deck
 
-## Build Instructions
-See [BUILD.md](./BUILD.md) for detailed build instructions.
+1. Install Decky Loader on the target device if it is not already installed.
+2. Copy `decky-terminal-focus-0.5.3-focus.1.zip` to the Steam Deck, for example into Downloads. Use the plugin ZIP from `out/` or the build artifact; GitHub's **Download ZIP** source archive is not an installable plugin.
+3. Open Decky settings. Enable **Developer Mode** under **General**, then open **Developer** and choose the option to install a plugin from a ZIP file.
+4. Select the plugin ZIP and confirm installation. Open **Decky Terminal Focus** and create a terminal.
 
+The fork has its own plugin name, settings, and route prefix, so it can coexist with the original Decky Terminal. Existing sessions and settings are not migrated. New installs default to Bash when available; otherwise choose a shell in the plugin settings.
 
-## License
-Distributed under BSD-3-Clause License  
-(`./src/common/xterm_css.tsx` is exempt from BSD-3-Clause License and distributed under MIT License)
+Codex itself is a separate installation on each device. This package contains no Codex credentials, shell profiles, account configuration, or personal terminal history. On the Steam Deck, use that device's normal Codex installation and login.
 
+## Controls
+
+- Click the terminal to capture input. Escape, Enter, arrows, and editing keys go to the terminal.
+- Use **Ctrl+Shift+F10** or the visible capture control to release input to Steam.
+- Tap **Exit fullscreen** to return to the normal layout and release capture.
+- While Steam's virtual keyboard is visible, its navigation and dismissal controls remain available. Closing it restores terminal focus if capture was active.
+- Running `exit` ends the shell, leaves fullscreen, and displays its exit status. Output stays visible until you leave the page.
+
+## Build from source
+
+Requires Node.js 22, pnpm 9.15.9, and Python 3. No Docker or Decky CLI is needed for this Python-only plugin.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm build
+pnpm test
+pnpm package
+```
+
+The installable ZIP and SHA-256 checksum are written to `out/`. GitHub Actions runs the same build and uploads them as a workflow artifact. Download that artifact, extract it, and install the inner plugin ZIP.
+
+`src/pages/Terminal.jsx` contains the maintained terminal component. It is JavaScript alongside upstream TypeScript, preserving the exact working focus implementation during the initial port.
+
+## Verified initial bundle
+
+`prebuilt/index.js` preserves the working bundle from the original local installation, with only the plugin title and routes namespaced and its stale source-map reference removed. It allows this first version to be packaged without downloading build dependencies:
+
+```sh
+node scripts/verify-prebuilt.mjs
+node scripts/test.mjs --prebuilt
+python3 scripts/package.py --prebuilt
+```
+
+The prebuilt checksum and upstream commit are recorded in `prebuilt/PROVENANCE.json`. The source-parity check rejects changes to the terminal component that have not been reflected in the prebuilt version. For subsequent development, build from source and test the resulting `dist/index.js`.
+
+## Verification and compatibility
+
+The component harness covers physical and virtual input forwarding, mismatched browser/internal routes, capture release, duplicate-arrow suppression, virtual-keyboard dismissal, repeated fullscreen toggles, shell exit, navigation away and back, terminal switching, and unmount/late-response cleanup. It exercises the compiled component with simulated Steam and xterm interfaces.
+
+On a machine with Steam installed, two additional integration checks inspect the installed Steam exports. Without Steam those checks report a skip; the component harness still runs. Set `STEAM_UI_PATH` if Steam's `steamui` directory is in a different location.
+
+The original working installation was verified by its user on Bazzite with Decky 3.3.0. The renamed package and each new Steam build still require on-device checking. Steam's internal keyboard and router interfaces can change, so automated checks do not replace a Game Mode test.
+
+## Upstream and license
+
+Based on upstream commit `c520a6a8e734aaa26088ef2cc75ca5cfb2660d46` (version 0.5.3). Upstream copyright notices and the BSD-3-Clause license are retained; the MIT notice in `src/common/xterm_css.tsx` is also retained. The prebuilt bundle includes upstream's bundled dependencies.
+
+To keep upstream changes separate:
+
+```sh
+git remote add upstream https://github.com/Alex4386/decky-terminal.git
+git fetch upstream
+```

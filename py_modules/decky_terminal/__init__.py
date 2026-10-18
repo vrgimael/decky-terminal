@@ -50,8 +50,11 @@ class DeckyTerminal:
     async def get_config(self) -> dict:
         config = await self._get_config()
         if config is None:
+            shells = await self.get_shells()
             config = dict(
                 __version__=1,
+                default_shell="/bin/bash" if "/bin/bash" in shells else shells[0],
+                use_dpad=True,
             )
             await self._write_config(config)
 

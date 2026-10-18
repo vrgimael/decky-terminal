@@ -1,18 +1,22 @@
 {
-  "name": "decky-terminal",
-  "version": "0.5.3",
+  "name": "decky-terminal-focus",
+  "version": "0.5.3-focus.1",
   "type": "module",
-  "description": "A long-awaited terminal plugin that turns your steamdeck into Linux battlestation.",
+  "description": "Decky terminal with captured input, virtual-keyboard restoration, and reliable fullscreen controls.",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "local-deploy": "./.vscode/deploy.sh",
-    "build-zip": "./.vscode/build.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-zip": "pnpm build && pnpm test && pnpm package",
+    "test": "node scripts/test.mjs",
+    "test:prebuilt": "node scripts/test.mjs --prebuilt",
+    "verify:prebuilt": "node scripts/verify-prebuilt.mjs",
+    "package": "python3 scripts/package.py",
+    "package:prebuilt": "python3 scripts/package.py --prebuilt"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alex4386/decky-terminal"
+    "url": "git+https://github.com/vrgimael/decky-terminal.git"
   },
   "keywords": [
     "decky",
@@ -24,9 +28,9 @@
   "author": "Alex4386 <psh010209@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/Alex4386/decky-terminal/issues"
+    "url": "https://github.com/vrgimael/decky-terminal/issues"
   },
-  "homepage": "https://github.com/Alex4386/decky-terminal#readme",
+  "homepage": "https://github.com/vrgimael/decky-terminal#readme",
   "devDependencies": {
     "@decky/rollup": "^1.0.1",
     "@decky/ui": "^4.10.0",
@@ -53,5 +57,6 @@
         "react-dom"
       ]
     }
-  }
+  },
+  "packageManager": "pnpm@9.15.9"
 }

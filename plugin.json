@@ -1,11 +1,13 @@
 {
-  "name": "Decky Terminal",
-  "author": "Alex4386",
+  "name": "Decky Terminal Focus",
+  "author": "vrgimael; based on Alex4386 and contributors",
   "flags": [],
   "api_version": 1,
   "publish": {
-    "tags": ["terminal"],
-    "description": "Your terminal is going places. The decky plugin that adds terminal emulator plugin for \"game mode\"",
+    "tags": [
+      "terminal"
+    ],
+    "description": "Terminal input capture, virtual keyboard support, and fullscreen exit controls for Game Mode.",
     "image": "https://github.com/user-attachments/assets/c8c8b38c-9fb1-4185-83bc-b6ed7cf95dc6"
   }
 }
